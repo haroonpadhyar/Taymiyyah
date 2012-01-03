@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>org.maktashaf.taymiyyah</groupId>
+  <artifactId>taymiyyah</artifactId>
+  <version>1.0</version>
+  <packaging>pom</packaging>
+  <name>Islamic Dawa Application.</name>
+  <description>Smart Search and Analytics on Islamic text and literature.</description>
+  
+  <prerequisites>
+    <maven>3.0.3</maven>
+  </prerequisites>
+  
+  <modules>
+    <module>taymiyyah-common</module>
+    <module>taymiyyah-domain</module>
+    <module>taymiyyah-repository</module>
+    <module>taymiyyah-service</module>
+    <module>taymiyyah-resource</module>
+    <module>taymiyyah-resource-client</module>
+    <module>taymiyyah-web</module>
+  </modules>
+  
+  
+</project>
