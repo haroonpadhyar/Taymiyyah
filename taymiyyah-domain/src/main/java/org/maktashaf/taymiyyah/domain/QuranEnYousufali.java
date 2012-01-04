@@ -11,8 +11,8 @@ import javax.persistence.Table;
  *
  * @author Haroon Anwar Padhyar.
  */
-@Table(name = "quran_en_yousufali", schema = "", catalog = "mysql")
 @Entity
+@Table(name = "quran_en_yousufali")
 public class QuranEnYousufali {
 
   @Id

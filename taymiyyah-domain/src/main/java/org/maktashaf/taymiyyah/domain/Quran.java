@@ -4,6 +4,7 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * Persistent Entity maps to 'quran' database table.
@@ -11,6 +12,7 @@ import javax.persistence.Id;
  * @author Haroon Anwar Padhyar.
  */
 @Entity
+@Table(name = "quran")
 public class Quran {
 
   @Id
