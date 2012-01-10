@@ -6,12 +6,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.maktashaf.taymiyyah</groupId>
+    <groupId>com.maktashaf.taymiyyah</groupId>
     <artifactId>taymiyyah</artifactId>
     <version>1.0</version>
   </parent>
   
-  <groupId>org.maktashaf.taymiyyah</groupId>
+  <groupId>com.maktashaf.taymiyyah</groupId>
   <artifactId>taymiyyah-domain</artifactId>
   <version>1.0</version>
   <packaging>jar</packaging>
@@ -27,7 +27,11 @@
       <groupId>org.hibernate.javax.persistence</groupId>
       <artifactId>hibernate-jpa-2.0-api</artifactId>
       <version>1.0.0.Final</version>
-      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-search</artifactId>
+      <version>3.4.0.Final</version>
     </dependency>
   </dependencies>
   

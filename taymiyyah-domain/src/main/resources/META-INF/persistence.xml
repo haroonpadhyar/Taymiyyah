@@ -2,9 +2,12 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
 
   <persistence-unit name="persistenceUnit">
-    <class>org.maktashaf.taymiyyah.domain.Quran</class>
-    <class>org.maktashaf.taymiyyah.domain.QuranEnYousufali</class>
-    <class>org.maktashaf.taymiyyah.domain.QuranUrMaududi</class>
+    <provider>org.hibernate.ejb.HibernatePersistence</provider>
+
+    <class>com.maktashaf.taymiyyah.domain.Quran</class>
+    <class>com.maktashaf.taymiyyah.domain.QuranEnYousufali</class>
+    <class>com.maktashaf.taymiyyah.domain.QuranUrMaududi</class>
+
     <properties>
       <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/mysql"/>
       <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
