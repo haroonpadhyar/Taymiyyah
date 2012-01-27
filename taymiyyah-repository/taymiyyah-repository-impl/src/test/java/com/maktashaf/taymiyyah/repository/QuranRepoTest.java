@@ -8,6 +8,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.AnnotationTransactionAttributeSource;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
@@ -33,8 +34,16 @@ public class QuranRepoTest {
   public void testFullTextSearchByAyah(){
 
     String text = "قلوبنا";
+    text = "على"; // this is in stop letters. stop filter will ignore it.
+    text = "علي"  ;
+//    text = "على  قلوبنا";
     System.out.println(text);
     List<Quran> ayats = quranRepo.fullTextSearchByAyah(text);
     System.out.println(ayats.size());
+    for(Quran quran: ayats){
+      System.out.println(quran.getAyahText()
+          +" : "+quran.getSurahName()
+          +" : "+quran.getAyahId());
+    }
   }
 }

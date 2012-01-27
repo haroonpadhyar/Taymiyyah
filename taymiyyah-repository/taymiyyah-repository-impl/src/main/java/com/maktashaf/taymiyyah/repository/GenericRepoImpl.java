@@ -13,16 +13,14 @@ import javax.persistence.Query;
 
 import org.apache.log4j.Logger;
 
-import org.hibernate.classic.Session;
-import org.hibernate.dialect.Oracle10gDialect;
-import org.hibernate.search.FullTextSession;
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
 import org.hibernate.search.jpa.Search;
 import org.hibernate.search.query.dsl.QueryBuilder;
 
 /**
- * @author Yazik K. P.
+ *
+ * @author Haroon Anwar Padhyar.
  */
 public abstract class GenericRepoImpl<T, ID extends Serializable> implements GenericRepo<T, ID> {
 
