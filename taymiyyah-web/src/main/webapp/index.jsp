@@ -18,5 +18,6 @@
   
   <body>
     This is my JSP page. <br>
+  <a href="faces/quransearch.jsf" >Search</a>
   </body>
 </html>

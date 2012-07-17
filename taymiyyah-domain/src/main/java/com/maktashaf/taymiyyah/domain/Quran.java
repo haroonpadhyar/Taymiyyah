@@ -4,6 +4,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
@@ -24,6 +26,10 @@ import org.hibernate.search.annotations.TokenizerDef;
  *
  * @author Haroon Anwar Padhyar.
  */
+@NamedQueries({
+    @NamedQuery(name = "searchByAyahId",
+        query = "select distinct q from Quran q where q.surahId = :surahId and q.ayahId= :ayahId")
+})
 @Entity
 @Table(name = "quran")
 @Indexed
