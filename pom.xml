@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
@@ -11,11 +11,11 @@
   <packaging>pom</packaging>
   <name>Islamic Dawa Application.</name>
   <description>Smart Search and Analytics on Islamic text and literature.</description>
-  
+
   <prerequisites>
     <maven>3.0.3</maven>
   </prerequisites>
-  
+
   <modules>
     <module>taymiyyah-common</module>
     <module>taymiyyah-domain</module>
@@ -72,11 +72,42 @@
       <artifactId>spring-test</artifactId>
       <version>3.1.0.RELEASE</version>
     </dependency>
+    <!--dependency>
+				<groupId>javax.faces</groupId>
+				<artifactId>jsf-api</artifactId>
+				<version>2.0.3</version>
+			</dependency>
+			<dependency>
+				<groupId>javax.faces</groupId>
+				<artifactId>jsf-impl</artifactId>
+				<version>2.0.3</version>
+			</dependency-->
+    <dependency>
+      <groupId>com.sun.faces</groupId>
+      <artifactId>jsf-api</artifactId>
+      <version>2.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.sun.faces</groupId>
+      <artifactId>jsf-impl</artifactId>
+      <version>2.0.3</version>
+    </dependency>
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
       <version>5.1.9</version>
     </dependency>
+    <!--dependency>
+      <groupId>poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>3.8-FINAL</version>
+    </dependency-->
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
+      <version>3.6</version>
+    </dependency>
+
   </dependencies>
-  
+
 </project>

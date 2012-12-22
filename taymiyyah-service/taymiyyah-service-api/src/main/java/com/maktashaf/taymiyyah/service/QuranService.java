@@ -11,4 +11,5 @@ public interface QuranService {
 
   public List<Quran> doFullTextSearch(String text);
   public Quran findAyahByAccumId(long ayahId);
+  public List<Quran> searchByAyahId(int surahId, int ayahId);
 }
