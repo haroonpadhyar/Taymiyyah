@@ -23,7 +23,6 @@ public class QuranSearchMBean {
   int surahId = 0;
   int ayahId = 0;
   private TestEnum testEnum;
-  private TestEnumm testEnumm;
 
   @PostConstruct
   public void init() {
@@ -99,10 +98,6 @@ public class QuranSearchMBean {
     return TestEnum.values();
   }
 
-  public TestEnumm[] getTestEnumms(){
-    return TestEnumm.values();
-  }
-
   public TestEnum getTestEnum() {
     return testEnum;
   }
@@ -111,12 +106,10 @@ public class QuranSearchMBean {
     this.testEnum = testEnum;
   }
 
-  public TestEnumm getTestEnumm() {
-    return testEnumm;
-  }
-
-  public void setTestEnumm(TestEnumm testEnumm) {
-    this.testEnumm = testEnumm;
+  public enum TestEnum{
+    Friday,
+    Saturday,
+    Sunday;
   }
 }
 

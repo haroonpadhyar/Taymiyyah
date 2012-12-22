@@ -9,10 +9,10 @@
     <class>com.maktashaf.taymiyyah.domain.QuranUrMaududi</class>
 
     <properties>
-      <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/mysql"/>
+      <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/taymiyyah"/>
       <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
       <property name="hibernate.connection.username" value="root"/>
-      <property name="hibernate.connection.password" value="admin"/>
+      <property name="hibernate.connection.password" value=""/>
     </properties>
   </persistence-unit>
 </persistence>
