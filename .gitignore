@@ -26,6 +26,6 @@ version.dat
 logs
 *.rar
 *indexes
-com.maktashaf.taymiyyah.domain.Quran
+com.maktashaf.taymiyyah.domain.Quran*
 #git update-index --assume-unchanged 
 

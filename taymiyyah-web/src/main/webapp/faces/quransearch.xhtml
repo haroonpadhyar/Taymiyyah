@@ -8,37 +8,37 @@
       xml:lang="en" lang="en">
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
-  <script language="javascript" src="../javascript/unicode.js" type="text/javascript"></script>
   <link rel="stylesheet" type="text/css" href="../css/table.css"/>
 
   <title>مكتشف</title>
 </head>
-<body dir="rtl">
+<body dir="RTL">
 
-<h:form id="form" dir="rtl">
+<h:form id="form" dir="RTL">
 
-  <h:outputLabel value="Enter Text" dir="rtl"/>
-  <h:inputText value="#{QuranSearchMBean.searchTerm}" dir="rtl" onkeydown="keydown(event, this);"
-               onkeypress="keypress(event);"/>
+  <h:outputLabel value="Enter Text" dir="RTL"/>
+  <h:inputText value="#{QuranSearchMBean.searchTerm}" dir="RTL"/>
   <h:commandLink action="#{QuranSearchMBean.doFulltextSearch}" dir="rtl">
     <h:outputText value="Search"/>
   </h:commandLink>
+  <br/>
+  <h:commandLink action="#{QuranSearchMBean.doFulltextSearchUr}" dir="rtl">
+      <h:outputText value="Search Urdu Transaltion"/>
+  </h:commandLink>
+  <br/>
+  <h:commandLink action="#{QuranSearchMBean.doFulltextSearchEn}" dir="rtl">
+      <h:outputText value="Search English Transaltion"/>
+  </h:commandLink>
 
+    <br/>
   <h:outputText value="             "/>
   <h:outputLabel value="Surah Id" dir="rtl"/>
-  <h:inputText value="#{QuranSearchMBean.surahId}" dir="rtl"/>
+  <h:inputText value="#{QuranSearchMBean.surahId}" dir="RTL"/>
   <h:outputLabel value="Ayah Id" dir="rtl"/>
-  <h:inputText value="#{QuranSearchMBean.ayahId}" dir="rtl"/>
+  <h:inputText value="#{QuranSearchMBean.ayahId}" dir="RTL"/>
   <h:commandLink action="#{QuranSearchMBean.searchByAyahId}" dir="rtl">
     <h:outputText value="Search"/>
   </h:commandLink>
-
-  <h:outputLabel value="test:"/>
-  <h:selectOneMenu id="test" value="#{QuranSearchMBean.testEnum}">
-    <f:selectItem itemLabel="-----" itemValue="0"/>
-    <f:selectItems value="#{QuranSearchMBean.testEnums}"/>
-  </h:selectOneMenu>
-
 
   <br/>
   <br/>
@@ -71,7 +71,11 @@
       <f:facet name="header">
         آيه
       </f:facet>
-      #{ayah.ayahText}
+        #{ayah.ayahText}
+        <br/>
+        #{ayah.quranUrMaududi.ayahText}
+        <br/>
+        <!--<span dir="LTR">#{ayah.quranEnYousufali.ayahText}</span>-->
     </h:column>
 
     <h:column>

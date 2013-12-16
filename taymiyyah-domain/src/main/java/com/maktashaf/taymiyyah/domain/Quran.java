@@ -3,15 +3,20 @@ package com.maktashaf.taymiyyah.domain;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
+import org.apache.solr.analysis.ArabicNormalizationFilterFactory;
 import org.apache.solr.analysis.ArabicStemFilterFactory;
 import org.apache.solr.analysis.StandardTokenizerFactory;
 
+import org.hibernate.FetchMode;
+import org.hibernate.annotations.Fetch;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.AnalyzerDef;
 import org.hibernate.search.annotations.Field;
@@ -52,7 +57,7 @@ public class Quran {
 
   @Column(name = "AYAH_TEXT", nullable = false, insertable = false, updatable = false, length = 65535, precision = 0)
   @Basic
-  @Field(index= Index.TOKENIZED, store= Store.YES, analyzer=@Analyzer(impl=ArabicAnalyzer.class))
+  @Field(index= Index.TOKENIZED, store= Store.YES, analyzer=@Analyzer(impl = ArabicAnalyzer.class))
 //	@Analyzer(definition="aranalyzer")
   private String ayahText;
 
@@ -87,6 +92,14 @@ public class Quran {
   @Column(name = "REVELATION_ORDER", nullable = false, insertable = false, updatable = false, length = 10, precision = 0)
   @Basic
   private int revelationOrder;
+
+  @OneToOne(fetch = FetchType.EAGER, mappedBy = "quran")
+  @Fetch(org.hibernate.annotations.FetchMode.JOIN)
+  QuranEnYousufali quranEnYousufali;
+
+  @OneToOne(fetch = FetchType.EAGER, mappedBy = "quran")
+  @Fetch(org.hibernate.annotations.FetchMode.JOIN)
+  QuranUrMaududi quranUrMaududi;
 
   public long getAccmId() {
     return accmId;
@@ -176,6 +189,22 @@ public class Quran {
     this.revelationOrder = revelationOrder;
   }
 
+  public QuranEnYousufali getQuranEnYousufali() {
+    return quranEnYousufali;
+  }
+
+  public void setQuranEnYousufali(QuranEnYousufali quranEnYousufali) {
+    this.quranEnYousufali = quranEnYousufali;
+  }
+
+  public QuranUrMaududi getQuranUrMaududi() {
+    return quranUrMaududi;
+  }
+
+  public void setQuranUrMaududi(QuranUrMaududi quranUrMaududi) {
+    this.quranUrMaududi = quranUrMaududi;
+  }
+
   @Override
   public boolean equals(Object o) {
     if (this == o) {
@@ -239,5 +268,8 @@ public class Quran {
     result = 31 * result + revelationOrder;
     return result;
   }
+
+  //TODO UI
+  //TODO Research: why Arabic Analyzer implementation work for Quran and definitoin work for Urdu mean without diacritics
 
 }

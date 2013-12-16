@@ -3,8 +3,27 @@ package com.maktashaf.taymiyyah.domain;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
+import org.apache.solr.analysis.LowerCaseFilterFactory;
+import org.apache.solr.analysis.PhoneticFilterFactory;
+import org.apache.solr.analysis.StandardTokenizerFactory;
+import org.apache.solr.analysis.StopFilterFactory;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.search.annotations.Analyzer;
+import org.hibernate.search.annotations.AnalyzerDef;
+import org.hibernate.search.annotations.Field;
+import org.hibernate.search.annotations.Index;
+import org.hibernate.search.annotations.Indexed;
+import org.hibernate.search.annotations.Parameter;
+import org.hibernate.search.annotations.Store;
+import org.hibernate.search.annotations.TokenFilterDef;
+import org.hibernate.search.annotations.TokenizerDef;
 
 /**
  * Persistent Entity maps to 'quran_en_yousufali' database table.
@@ -13,6 +32,18 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "quran_en_yousufali")
+@Indexed
+@AnalyzerDef(name = "metaphoneAnalyzer",
+    tokenizer = @TokenizerDef(factory = StandardTokenizerFactory.class),
+    filters = {
+        @TokenFilterDef(factory = StopFilterFactory.class),
+        @TokenFilterDef(factory = LowerCaseFilterFactory.class),
+        @TokenFilterDef(factory = PhoneticFilterFactory.class,
+            params = {
+                @Parameter(name = "encoder", value = "METAPHONE")
+            })
+    }
+)
 public class QuranEnYousufali {
 
   @Id
@@ -26,6 +57,7 @@ public class QuranEnYousufali {
 
   @Column(name = "AYAH_TEXT", nullable = false, insertable = false, updatable = false, length = 65535, precision = 0)
   @Basic
+  @Field(index= Index.TOKENIZED, store= Store.YES, analyzer=@Analyzer(definition = "metaphoneAnalyzer"))
   private String ayahText;
 
 
@@ -60,6 +92,12 @@ public class QuranEnYousufali {
   @Column(name = "REVELATION_ORDER", nullable = false, insertable = false, updatable = false, length = 10, precision = 0)
   @Basic
   private int revelationOrder;
+
+  @OneToOne(fetch = FetchType.EAGER)
+  @PrimaryKeyJoinColumn
+  @Fetch(org.hibernate.annotations.FetchMode.JOIN)
+  Quran quran;
+
 
   public long getAccmId() {
     return accmId;
@@ -147,6 +185,14 @@ public class QuranEnYousufali {
 
   public void setRevelationOrder(int revelationOrder) {
     this.revelationOrder = revelationOrder;
+  }
+
+  public Quran getQuran() {
+    return quran;
+  }
+
+  public void setQuran(Quran quran) {
+    this.quran = quran;
   }
 
   @Override

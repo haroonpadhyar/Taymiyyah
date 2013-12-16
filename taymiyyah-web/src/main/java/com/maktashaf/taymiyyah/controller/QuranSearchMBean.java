@@ -22,7 +22,6 @@ public class QuranSearchMBean {
   List<Quran> ayahs;
   int surahId = 0;
   int ayahId = 0;
-  private TestEnum testEnum;
 
   @PostConstruct
   public void init() {
@@ -35,7 +34,38 @@ public class QuranSearchMBean {
   public void doFulltextSearch() {
 
     try {
+      long t1 = System.currentTimeMillis();
       ayahs = quranService.doFullTextSearch(searchTerm);
+      long t2 = System.currentTimeMillis();
+      System.out.println("Time: "+(t2-t1));
+    }
+    catch(Exception e) {
+      e.printStackTrace();
+      ayahs = new ArrayList<Quran>();
+    }
+  }
+
+  public void doFulltextSearchUr() {
+
+    try {
+      long t1 = System.currentTimeMillis();
+      ayahs = quranService.doFullTextSearchUr(searchTerm);
+      long t2 = System.currentTimeMillis();
+      System.out.println("Time: "+(t2-t1));
+    }
+    catch(Exception e) {
+      e.printStackTrace();
+      ayahs = new ArrayList<Quran>();
+    }
+  }
+
+  public void doFulltextSearchEn() {
+
+    try {
+      long t1 = System.currentTimeMillis();
+      ayahs = quranService.doFullTextSearchEn(searchTerm);
+      long t2 = System.currentTimeMillis();
+      System.out.println("Time: "+(t2-t1));
     }
     catch(Exception e) {
       e.printStackTrace();
@@ -94,22 +124,5 @@ public class QuranSearchMBean {
     this.ayahId = ayahId;
   }
 
-  public TestEnum[] getTestEnums(){
-    return TestEnum.values();
-  }
-
-  public TestEnum getTestEnum() {
-    return testEnum;
-  }
-
-  public void setTestEnum(TestEnum testEnum) {
-    this.testEnum = testEnum;
-  }
-
-  public enum TestEnum{
-    Friday,
-    Saturday,
-    Sunday;
-  }
 }
 

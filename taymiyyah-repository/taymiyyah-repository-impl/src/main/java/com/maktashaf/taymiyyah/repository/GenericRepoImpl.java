@@ -4,6 +4,7 @@
 package com.maktashaf.taymiyyah.repository;
 
 import java.io.Serializable;
+import java.io.StringReader;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,20 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
+import com.maktashaf.taymiyyah.domain.Quran;
+import com.maktashaf.taymiyyah.domain.QuranEnYousufali;
+import com.maktashaf.taymiyyah.domain.QuranUrMaududi;
 import org.apache.log4j.Logger;
+import org.apache.log4j.spi.ThrowableRendererSupport;
+import org.apache.lucene.analysis.Analyzer;
+import org.apache.lucene.analysis.TokenStream;
+import org.apache.lucene.analysis.ar.ArabicAnalyzer;
+import org.apache.lucene.search.Sort;
+import org.apache.lucene.search.SortField;
+import org.apache.lucene.search.highlight.Highlighter;
+import org.apache.lucene.search.highlight.QueryScorer;
+import org.apache.lucene.search.highlight.SimpleHTMLFormatter;
+import org.apache.lucene.util.Version;
 
 import org.hibernate.search.jpa.FullTextEntityManager;
 import org.hibernate.search.jpa.FullTextQuery;
@@ -103,7 +117,49 @@ public abstract class GenericRepoImpl<T, ID extends Serializable> implements Gen
 
     org.apache.lucene.search.Query query = queryBuilder.keyword().onField("ayahText").matching(token).createQuery();
     FullTextQuery fullTextQuery = fullTextEntityManager.createFullTextQuery(query, persistentClass);
+    Sort sort = new Sort(new SortField("accmId", SortField.LONG)) ;
+    fullTextQuery.setSort(sort);
     List<T> list = fullTextQuery.getResultList();
+//    fullTextQuery.setFirstResult()
+//    fullTextQuery.setMaxResults()
+
+    Analyzer analyzer = null;
+    try{
+      for (T t : list) {
+        if(t instanceof Quran){
+          if(analyzer == null)
+            analyzer = new ArabicAnalyzer(Version.LUCENE_31);
+          Quran quran = (Quran)t;
+          TokenStream tokenStream = analyzer.tokenStream("ayahText",new StringReader(quran.getAyahText()));
+          SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter("<B/>","<B>");
+          Highlighter highlighter = new Highlighter(simpleHTMLFormatter, new QueryScorer( query));
+          String[] bestFragment = highlighter.getBestFragments(tokenStream, quran.getAyahText(),100);
+          quran.setAyahText(String.valueOf(bestFragment[0]));
+        } else if(t instanceof QuranUrMaududi){
+          if(analyzer == null)
+            analyzer = fullTextEntityManager.getSearchFactory().getAnalyzer("uranalyzer");
+          QuranUrMaududi quran = (QuranUrMaududi)t;
+          TokenStream tokenStream = analyzer.tokenStream("ayahText",new StringReader(quran.getAyahText()));
+          SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter("<B/>","<B>");
+          Highlighter highlighter = new Highlighter(simpleHTMLFormatter, new QueryScorer( query));
+          String[] bestFragment = highlighter.getBestFragments(tokenStream, quran.getAyahText(),100);
+          quran.setAyahText(String.valueOf(bestFragment[0]));
+        } else if(t instanceof QuranEnYousufali){
+          if(analyzer == null)
+            analyzer = fullTextEntityManager.getSearchFactory().getAnalyzer("metaphoneAnalyzer");
+          QuranEnYousufali quran = (QuranEnYousufali)t;
+          TokenStream tokenStream = analyzer.tokenStream("ayahText",new StringReader(quran.getAyahText()));
+          SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter();
+          Highlighter highlighter = new Highlighter(simpleHTMLFormatter, new QueryScorer( query));
+          String[] bestFragment = highlighter.getBestFragments(tokenStream, quran.getAyahText(),100);
+          quran.setAyahText(String.valueOf(bestFragment[0]));
+        }
+      }
+    }catch(Exception e){
+      e.printStackTrace();
+      new RuntimeException(e.getMessage());
+    }
+
 
     return list;
   }
