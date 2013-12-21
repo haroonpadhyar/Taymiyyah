@@ -11,11 +11,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
-import org.apache.solr.analysis.ArabicNormalizationFilterFactory;
 import org.apache.solr.analysis.ArabicStemFilterFactory;
 import org.apache.solr.analysis.StandardTokenizerFactory;
 
-import org.hibernate.FetchMode;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.search.annotations.Analyzer;
 import org.hibernate.search.annotations.AnalyzerDef;
@@ -268,8 +266,5 @@ public class Quran {
     result = 31 * result + revelationOrder;
     return result;
   }
-
-  //TODO UI
-  //TODO Research: why Arabic Analyzer implementation work for Quran and definitoin work for Urdu mean without diacritics
 
 }

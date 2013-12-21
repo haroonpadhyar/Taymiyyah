@@ -51,7 +51,7 @@ public class QuranUrMaududi {
 
   @Column(name = "AYAH_TEXT", nullable = false, insertable = false, updatable = false, length = 65535, precision = 0)
   @Basic
-  @Field(index= Index.TOKENIZED, store= Store.YES, analyzer=@Analyzer(definition="uranalyzer"))
+  @Field(index= Index.TOKENIZED, store= Store.YES, analyzer=@Analyzer(impl = ArabicAnalyzer.class))
   private String ayahText;
 
   @Column(name = "ORIGIN", nullable = false, insertable = false, updatable = false, length = 65535, precision = 0)

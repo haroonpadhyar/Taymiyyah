@@ -16,7 +16,6 @@ import com.maktashaf.taymiyyah.domain.Quran;
 import com.maktashaf.taymiyyah.domain.QuranEnYousufali;
 import com.maktashaf.taymiyyah.domain.QuranUrMaududi;
 import org.apache.log4j.Logger;
-import org.apache.log4j.spi.ThrowableRendererSupport;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.ar.ArabicAnalyzer;
@@ -133,7 +132,7 @@ public abstract class GenericRepoImpl<T, ID extends Serializable> implements Gen
           TokenStream tokenStream = analyzer.tokenStream("ayahText",new StringReader(quran.getAyahText()));
           SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter("<B/>","<B>");
           Highlighter highlighter = new Highlighter(simpleHTMLFormatter, new QueryScorer( query));
-          String[] bestFragment = highlighter.getBestFragments(tokenStream, quran.getAyahText(),100);
+          String[] bestFragment = highlighter.getBestFragments(tokenStream, quran.getAyahText(), 100);
           quran.setAyahText(String.valueOf(bestFragment[0]));
         } else if(t instanceof QuranUrMaududi){
           if(analyzer == null)
@@ -142,7 +141,7 @@ public abstract class GenericRepoImpl<T, ID extends Serializable> implements Gen
           TokenStream tokenStream = analyzer.tokenStream("ayahText",new StringReader(quran.getAyahText()));
           SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter("<B/>","<B>");
           Highlighter highlighter = new Highlighter(simpleHTMLFormatter, new QueryScorer( query));
-          String[] bestFragment = highlighter.getBestFragments(tokenStream, quran.getAyahText(),100);
+          String[] bestFragment = highlighter.getBestFragments(tokenStream, quran.getAyahText(), 100);
           quran.setAyahText(String.valueOf(bestFragment[0]));
         } else if(t instanceof QuranEnYousufali){
           if(analyzer == null)
@@ -151,7 +150,7 @@ public abstract class GenericRepoImpl<T, ID extends Serializable> implements Gen
           TokenStream tokenStream = analyzer.tokenStream("ayahText",new StringReader(quran.getAyahText()));
           SimpleHTMLFormatter simpleHTMLFormatter = new SimpleHTMLFormatter();
           Highlighter highlighter = new Highlighter(simpleHTMLFormatter, new QueryScorer( query));
-          String[] bestFragment = highlighter.getBestFragments(tokenStream, quran.getAyahText(),100);
+          String[] bestFragment = highlighter.getBestFragments(tokenStream, quran.getAyahText(), 100);
           quran.setAyahText(String.valueOf(bestFragment[0]));
         }
       }

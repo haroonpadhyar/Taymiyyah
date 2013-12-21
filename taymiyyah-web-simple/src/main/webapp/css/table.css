@@ -1,0 +1,28 @@
+.tableStyle {
+  border: 1px solid #666666;
+}
+
+.header {
+  color: #000;
+  background-color: #EBEBEB;
+}
+.evenRow {
+  color: #000;
+  background-color: #F0FFF0;
+  /*font-size:14px;*/
+  font-size: large;
+  font-style: normal;
+}
+
+.oddRow {
+  /*background-color: #CCCCFF;*/
+  color: #000;
+  background-color: #C1FFC1;
+  font-size: large;
+  font-style: normal;
+}
+
+.highlight{
+  font-weight: bold;
+  color: green;
+}
