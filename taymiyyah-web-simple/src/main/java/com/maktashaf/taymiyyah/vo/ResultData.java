@@ -8,23 +8,76 @@ import com.maktashaf.taymiyyah.model.Quran;
  * @author: Haroon
  */
 public class ResultData {
-  private int pageNo;
+  private int currentPage;
+  private int totalPages;
+  private int totalHits;
+  private int original;
+  private String term;
   List<Quran> quranList;
 
-  public ResultData() {
-
-  }
-  public ResultData(int pageNo, List<Quran> quranList) {
-    this.pageNo = pageNo;
-    this.quranList = quranList;
+  public int getCurrentPage() {
+    return currentPage;
   }
 
-  public int getPageNo() {
-    return pageNo;
+  public void setCurrentPage(int currentPage) {
+    this.currentPage = currentPage;
   }
 
-  public void setPageNo(int pageNo) {
-    this.pageNo = pageNo;
+  public ResultData withCurrentPage(int currentPage) {
+    this.currentPage = currentPage;
+    return this;
+  }
+
+  public int getTotalPages() {
+    return totalPages;
+  }
+
+  public void setTotalPages(int totalPages) {
+    this.totalPages = totalPages;
+  }
+
+  public ResultData withTotalPages(int totalPages) {
+    this.totalPages = totalPages;
+    return this;
+  }
+
+  public int getTotalHits() {
+    return totalHits;
+  }
+
+  public void setTotalHits(int totalHits) {
+    this.totalHits = totalHits;
+  }
+
+  public ResultData withTotalHits(int totalHits) {
+    this.totalHits = totalHits;
+    return this;
+  }
+
+  public int getOriginal() {
+    return original;
+  }
+
+  public void setOriginal(int original) {
+    this.original = original;
+  }
+
+  public ResultData withOriginal(int original) {
+    this.original = original;
+    return this;
+  }
+
+  public String getTerm() {
+    return term;
+  }
+
+  public void setTerm(String term) {
+    this.term = term;
+  }
+
+  public ResultData withTerm(String term) {
+    this.term = term;
+    return this;
   }
 
   public List<Quran> getQuranList() {
@@ -33,5 +86,10 @@ public class ResultData {
 
   public void setQuranList(List<Quran> quranList) {
     this.quranList = quranList;
+  }
+
+  public ResultData withQuranList(List<Quran> quranList) {
+    this.quranList = quranList;
+    return this;
   }
 }

@@ -35,27 +35,18 @@ public class SearchServlet extends HttpServlet{
   protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
     try {
       List<Quran> quranList = new ArrayList<Quran>();
+      String locale = req.getParameter("locale");
+      LocaleEnum localeEnum = null;
+      if(locale != null && locale.length() > 0)
+        localeEnum = LocaleEnum.languageBiMap.look(locale);
 
-      String ajax = req.getParameter("ajax");
-      if(ajax != null && ajax.equals("yes")){
-        handleAjax(req, resp);
-      } else {
-        String locale = req.getParameter("locale");
-        if(locale != null && locale.length() > 0){
-          LocaleEnum localeEnum = LocaleEnum.languageBiMap.look(locale);
-          if(localeEnum != null){
-            req.setAttribute("locale", localeEnum.value());
-            req.setAttribute("localeLang", localeEnum.value().getLanguage());
-          }
-          else{
-            req.setAttribute("locale", LocaleEnum.Ar.value());
-            req.setAttribute("localeLang", LocaleEnum.Ar.value().getLanguage());
-          }
-        }
+      if(localeEnum == null)
+        localeEnum = LocaleEnum.Ar;
 
-        req.setAttribute("quranList", quranList);
-        req.getRequestDispatcher("/index.jsp").forward(req, resp);
-      }
+      req.setAttribute("locale", localeEnum.value());
+      req.setAttribute("localeLang", localeEnum.value().getLanguage());
+      req.getRequestDispatcher("/index.jsp").forward(req, resp);
+
 
     }catch(Exception e){
       //TODO send some error message
@@ -68,39 +59,8 @@ public class SearchServlet extends HttpServlet{
     try{
       long startTime = System.currentTimeMillis();
       String ajax = req.getParameter("ajax");
-      if(ajax != null && ajax.equals("yes")){
+      if(ajax != null && ajax.equals("yes"))
         handleAjax(req, resp);
-        return;
-      }
-
-      String locale = req.getParameter("locale");
-      String term = req.getParameter("term");
-      boolean original = req.getParameter("original").equals("1");
-      int pageNo = 1;
-
-      LocaleEnum localeEnum = LocaleEnum.languageBiMap.look(locale);
-      if(localeEnum != null){
-        req.setAttribute("locale", localeEnum.value());
-        req.setAttribute("localeLang", localeEnum.value().getLanguage());
-      }
-      else {
-        req.setAttribute("locale", LocaleEnum.Ar.value());
-        req.setAttribute("localeLang", LocaleEnum.Ar.value().getLanguage());
-      }
-
-      // process request
-      SearchResult searchResult = process(term, pageNo, localeEnum, original);
-
-      req.setAttribute("currentPage", Integer.valueOf(pageNo));
-      req.setAttribute("totalPage", Integer.valueOf(searchResult.getTotalPages()));
-      req.setAttribute("totalHits", Integer.valueOf(searchResult.getTotalHits()));
-      req.setAttribute("original", (original?1:0));
-      req.setAttribute("term", term);
-      req.setAttribute("quranList", searchResult.getQuranList());
-      if(logger.isDebugEnabled()){
-        logger.debug("Time Taken: "+(System.currentTimeMillis() - startTime));
-      }
-      req.getRequestDispatcher("/index.jsp").forward(req, resp);
 
     }catch(Exception e){
       //TODO send some error message
@@ -147,9 +107,11 @@ public class SearchServlet extends HttpServlet{
   }
 
   private void handleAjax(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-    String term = req.getParameter("term");
+    String searchedTerm = req.getParameter("term");
+    String termHidden = req.getParameter("termHidden");
+    String term = termHidden;
     String locale = req.getParameter("locale");
-    String pagination = req.getParameter("pagination");
+    String src = req.getParameter("src");
     String pageNoStr = req.getParameter("currentPage");
     String totalPagesStr = req.getParameter("totalPages");
     boolean original = req.getParameter("original").equals("1");
@@ -160,24 +122,42 @@ public class SearchServlet extends HttpServlet{
     if(totalPagesStr == null || totalPagesStr.length() <=0)
       totalPagesStr = String.valueOf("0");
 
-    int pageNo = Integer.valueOf(pageNoStr).intValue();
+    int currentPage = Integer.valueOf(pageNoStr).intValue();
     int totalPage = Integer.valueOf(totalPagesStr).intValue();
-    pageNo = Math.max(pageNo, 1); // page should be submitted at least from first page for pagination
-    if(pagination.equals("nxt")){
-      pageNo += 1;
-      pageNo = Math.min(pageNo, totalPage);// shouldn't be more than total pages
-    } else if(pagination.equals("prv")){
-      pageNo -= 1;
-      pageNo = Math.min(pageNo, totalPage); // shouldn't be more than total pages
-      pageNo = Math.max(pageNo, 1); // should not be at 0 or -ve index
+    currentPage = Math.max(currentPage, 1); // page should be submitted at least from first page for pagination
+    totalPage = Math.max(totalPage, 1);
+    if(src.equals("nxt")){
+      currentPage += 1;
+      currentPage = Math.min(currentPage, totalPage);// shouldn't be more than total pages
+    } else if(src.equals("prv")){
+      currentPage -= 1;
+      currentPage = Math.min(currentPage, totalPage); // shouldn't be more than total pages
+      currentPage = Math.max(currentPage, 1); // should not be at 0 or -ve index
+    } else if(src.equals("orgSrch")){
+      // refresh search
+      original = true;
+      currentPage = 1;
+      term = searchedTerm;
+    } else if(src.equals("trnsSrch")){
+      // refresh search
+      original = false;
+      currentPage = 1;
+      term = searchedTerm;
     }
 
     LocaleEnum localeEnum = LocaleEnum.languageBiMap.look(locale);
     if(localeEnum == null)
       localeEnum = LocaleEnum.Ar;
 
-    SearchResult searchResult = process(term, pageNo, localeEnum, original);
-    ResultData resultData = new ResultData(pageNo, searchResult.getQuranList());
+    SearchResult searchResult = process(term, currentPage, localeEnum, original);
+    currentPage = Math.min(currentPage, searchResult.getTotalPages());
+    ResultData resultData = new ResultData()
+        .withCurrentPage(currentPage)
+        .withTotalPages(searchResult.getTotalPages())
+        .withTotalHits(searchResult.getTotalHits())
+        .withOriginal(original ? 1 : 0)
+        .withTerm(term)
+        .withQuranList(searchResult.getQuranList());
 
     Gson gson = new Gson();
     String json = gson.toJson(resultData);
