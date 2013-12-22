@@ -39,7 +39,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>SearchServlet</servlet-name>
-    <url-pattern>/searchservlet</url-pattern>
+    <url-pattern>/searchthetext</url-pattern>
   </servlet-mapping>
 
   <session-config>
