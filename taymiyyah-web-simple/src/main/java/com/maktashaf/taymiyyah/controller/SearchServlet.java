@@ -43,8 +43,8 @@ public class SearchServlet extends HttpServlet{
       if(localeEnum == null)
         localeEnum = LocaleEnum.Ar;
 
-      req.setAttribute("locale", localeEnum.value());
-      req.setAttribute("localeLang", localeEnum.value().getLanguage());
+      req.getSession().setAttribute("locale", localeEnum.value());
+      req.getSession().setAttribute("localeLang", localeEnum.value().getLanguage());
       req.getRequestDispatcher("/index.jsp").forward(req, resp);
 
 
@@ -157,6 +157,7 @@ public class SearchServlet extends HttpServlet{
         .withTotalHits(searchResult.getTotalHits())
         .withOriginal(original ? 1 : 0)
         .withTerm(term)
+        .withLang(localeEnum.value().getLanguage())
         .withQuranList(searchResult.getQuranList());
 
     Gson gson = new Gson();

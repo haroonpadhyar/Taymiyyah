@@ -108,6 +108,13 @@ public class QuranJDBCRepoImpl implements QuranJDBCRepo{
         else{
           if(localeEnum != LocaleEnum.Ar)
             quranMap.get(rs.getInt(QuranField.accumId.value())).setAyahText(rs.getString(QuranField.ayahText.value()));
+          else {
+            // This is temporary until we don't have any arabic translation. Just return the
+            // Quran text. since it was searched on Quran by luceneRepo. for locale 'ar'
+            Quran quran = quranMap.get(rs.getInt(QuranField.accumId.value()));
+            quran.setAyahText(quran.getAyahTranslationText());
+            quran.setAyahTranslationText(null);
+          }
           quranMap.get(rs.getInt(QuranField.accumId.value())).setSurahName(rs.getString(QuranField.surahName.value()));
           quranMap.get(rs.getInt(QuranField.accumId.value())).setJuzName(rs.getString(QuranField.juzName.value()));
         }

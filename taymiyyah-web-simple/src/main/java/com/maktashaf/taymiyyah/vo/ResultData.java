@@ -13,6 +13,7 @@ public class ResultData {
   private int totalHits;
   private int original;
   private String term;
+  private String lang;
   List<Quran> quranList;
 
   public int getCurrentPage() {
@@ -77,6 +78,19 @@ public class ResultData {
 
   public ResultData withTerm(String term) {
     this.term = term;
+    return this;
+  }
+
+  public String getLang() {
+    return lang;
+  }
+
+  public void setLang(String lang) {
+    this.lang = lang;
+  }
+
+  public ResultData withLang(String lang) {
+    this.lang = lang;
     return this;
   }
 

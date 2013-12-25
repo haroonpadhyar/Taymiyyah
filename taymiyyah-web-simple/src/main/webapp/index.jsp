@@ -4,12 +4,14 @@
 <%@ taglib prefix="html" uri="http://struts.apache.org/tags-html" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<fmt:setLocale value="${requestScope.locale}" />
+<fmt:setLocale value="${sessionScope.locale}" />
 <fmt:setBundle basename="i18n.messages" var="msg"/>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="css/table.css"/>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
     <script src="javascript/jquery-1.7.2.js" type="text/javascript"></script>
     <title>مكتشف</title>
     <meta http-equiv="pragma" content="no-cache">
@@ -40,19 +42,28 @@
               for(var i =0;i < quranList.length;i++)
               {
                 var quran = quranList[i];
-                str +="<tr>"
-                  +"<td>"+quran.surahId+"</td>"
-                  +"<td>"+quran.surahName+"</td>"
-                  +"<td>"+quran.ayahId+"</td>"
-                  +"<td>"+quran.ayahText
-                  +"<br>"
-                  +quran.ayahTranslationText
-                  +"</td>"
-                  +"<td>"+quran.juzName+"</td>"
-                  +"</tr>";
+                var title = "("+quran.surahId+")"+quran.surahName +" "+quran.ayahId+". "+quran.juzName;
+                str += "<div title=\""+title+"\" class=\"row well\" style=\"margin-right: 0px;margin-left: 0px;\">"
+                    +"<p style=\"font-size: xx-large\" dir=\"rtl\">"
+                    +quran.ayahText
+                    +" . ("+quran.surahName+" "+quran.ayahId+")"
+                    +"</p>";
 
+                if(resp.lang == "en"){
+                  str +="<p style=\"font-size: large\" >"
+                      +quran.ayahTranslationText
+                      +"</p>";
+                } else{
+                  if(resp.lang != "ar"){
+                    str +="<p style=\"font-size: large\" dir=\"rtl\">"
+                        +quran.ayahTranslationText
+                        +"</p>" ;
+                  }
+                }
+
+                str += "</div>";
               }
-              $('#qtable tbody').html(str);
+              $('#qtableDiv').html(str);
               $('#currentPage').html(resp.currentPage);
               $('#totalPages').html(resp.totalPages);
               $('#totalHits').html(resp.totalHits);
@@ -60,7 +71,7 @@
               $('#totalPagesHidden').val(resp.totalPages);
               $('#originalHidden').val(resp.original);
               $('#termHidden').val(resp.term);
-              $('#qtableDiv' ).show();
+              $('#resultDiv' ).show();
             }
           });
           return false; // keeps the page from not refreshing
@@ -70,73 +81,40 @@
   </head>
   
   <body>
-  <h1><span style="color: green">مكتشف</span> </h1>
-    <br>
-    <a href="searchthetext?locale=ar">العربیة</a>&nbsp;
-    <a href="searchthetext?locale=ur">اردو</a>&nbsp;
-    <a href="searchthetext?locale=en">English</a>&nbsp;
 
-   <form>
-     <label><fmt:message key="searchTerm" bundle="${msg}"/>:</label>
-     <input id="term" name="term" type="text" value="محمد"/>
-     <br>
-     <button id="orgSrch" type="submit" name="original" value="1" ><fmt:message key="searchOriginal" bundle="${msg}"/></button>
-     <br>
-     <button id="trnsSrch" type="submit" name="original" value="0" ><fmt:message key="searchTrns" bundle="${msg}"/></button>
+<%--ltr--%>
+  <c:if test="${sessionScope.locale eq null or sessionScope.locale.language.equals('en')}">
+    <jsp:include page="pages/header-ltr.jsp" />
+    <jsp:include page="pages/search-ltr.jsp" />
+    <div id="resultDiv" style="display: none">
+      <div id="qtableDiv" class="container"></div>
+      <jsp:include page="pages/pagination-ltr.jsp" />
+    </div>
+  </c:if>
+<%--ent ltr--%>
 
-     <%--Hidden values--%>
-     <input id="locale" type="hidden" name="locale" value=<c:out value="${requestScope.localeLang}" default="en" /> />
-     <input id="currentPageHidden" type="hidden" value="0" />
-     <input id="totalPagesHidden" type="hidden" value="0" />
-     <input id="originalHidden" type="hidden" value="0" />
-     <input id="termHidden" type="hidden" value="" />
-     <%--Hidden values--%>
-
-   </form>
-  <br>
-
-  <%--data grid--%>
-  <div id="qtableDiv" style="display: none">
-    <table id="qtable" dir="RTL" border="1" width="100%">
-      <thead>
-        <tr>
-          <th><fmt:message key="surahNo" bundle="${msg}"/></th>
-          <th><fmt:message key="surahName" bundle="${msg}"/></th>
-          <th><fmt:message key="ayahNo" bundle="${msg}"/></th>
-          <th><fmt:message key="ayah" bundle="${msg}"/></th>
-          <th><fmt:message key="juzNo" bundle="${msg}"/></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-    <%--data grid end--%>
-
-    <%--pagination controls--%>
-    <br>
-    <a href="" id="prv" ><fmt:message key="previous" bundle="${msg}"/></a>&nbsp;&nbsp;
-    <div id="currentPage"></div>&nbsp;
-    <fmt:message key="of" bundle="${msg}"/>&nbsp;
-    <div id="totalPages"></div> &nbsp;&nbsp;
-    <a href="" id="nxt"  ><fmt:message key="next" bundle="${msg}"/></a>&nbsp;  &nbsp;&nbsp;&nbsp;
-    <fmt:message key="totalHits" bundle="${msg}"/> &nbsp;
-    <div id="totalHits"><div> &nbsp;&nbsp;
-    <%--pagination controls end--%>
+<%--rtl--%>
+<c:if test="${sessionScope.locale ne null and !sessionScope.locale.language.equals('en')}">
+  <jsp:include page="pages/header-rtl.jsp" />
+  <jsp:include page="pages/search-rtl.jsp" />
+  <div id="resultDiv" style="display: none">
+    <div id="qtableDiv" class="container"></div>
+    <jsp:include page="pages/pagination-rtl.jsp" />
   </div>
+</c:if>
+<%--ent rtl--%>
 
-  <c:catch var="ex">
-    <c:if test="${ex ne null}">
-      <c:out value="Some error occure."/>
-      <c:out value="${ex.message}"/>
-    </c:if>
-  </c:catch>
+  <div class="container">
+
+      <c:catch var="ex">
+        <c:if test="${ex ne null}">
+          <c:out value="Some error occure."/>
+          <c:out value="${ex.message}"/>
+        </c:if>
+      </c:catch>
+    </div>
+  <%--End Container--%>
+
 
   </body>
 </html>
