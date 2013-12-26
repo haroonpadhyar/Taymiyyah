@@ -59,7 +59,7 @@
       <form class="well form-search">
         <div class="row">
           <div class="col-md-3">
-            <input id="idSrch" type="radio" name="idSrch" value="idSrch">&nbsp;
+            <input id="radio" type="radio" name="radio" value="idSrch">&nbsp;
             <label><fmt:message key="ayahNo" bundle="${msg}"/></label>
           </div>
           <div class="col-md-7">
@@ -77,7 +77,7 @@
         <br>
         <div class="row">
           <div class="col-md-3">
-            <input id="srSrch" type="radio" name="srSrch" value="srSrch">&nbsp;
+            <input id="radio" type="radio" name="radio" value="srSrch">&nbsp;
             <label><fmt:message key="serialNo" bundle="${msg}"/></label>
           </div>
           <div class="col-md-2">
@@ -85,7 +85,7 @@
                    style="width: 100%;padding: 5px;" value="" />
           </div>
           <div class="col-md-5">
-            <button id="trnsSrch" type="submit" class="btn btn-primary"
+            <button id="srch" type="submit" class="btn btn-primary"
                     style="width: 100%" ><fmt:message key="search" bundle="${msg}"/></button>
           </div>
           <div class="col-md-2">

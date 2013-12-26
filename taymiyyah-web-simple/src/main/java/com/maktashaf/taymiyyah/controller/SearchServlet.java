@@ -60,7 +60,7 @@ public class SearchServlet extends HttpServlet{
       long startTime = System.currentTimeMillis();
       String ajax = req.getParameter("ajax");
       if(ajax != null && ajax.equals("yes"))
-        handleAjax(req, resp);
+        handleAjax(req, resp, startTime);
 
     }catch(Exception e){
       //TODO send some error message
@@ -106,7 +106,7 @@ public class SearchServlet extends HttpServlet{
     return searchResult;
   }
 
-  private void handleAjax(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+  private void handleAjax(HttpServletRequest req, HttpServletResponse resp, long startTime) throws ServletException, IOException {
     String searchedTerm = req.getParameter("term");
     String termHidden = req.getParameter("termHidden");
     String term = termHidden;
@@ -151,6 +151,7 @@ public class SearchServlet extends HttpServlet{
 
     SearchResult searchResult = process(term, currentPage, localeEnum, original);
     currentPage = Math.min(currentPage, searchResult.getTotalPages());
+    long totalTime = System.currentTimeMillis() - startTime;
     ResultData resultData = new ResultData()
         .withCurrentPage(currentPage)
         .withTotalPages(searchResult.getTotalPages())
@@ -158,6 +159,7 @@ public class SearchServlet extends HttpServlet{
         .withOriginal(original ? 1 : 0)
         .withTerm(term)
         .withLang(localeEnum.value().getLanguage())
+        .withTime(String.valueOf(totalTime / 1000f))
         .withQuranList(searchResult.getQuranList());
 
     Gson gson = new Gson();

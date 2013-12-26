@@ -14,6 +14,7 @@ public class ResultData {
   private int original;
   private String term;
   private String lang;
+  private String time;
   List<Quran> quranList;
 
   public int getCurrentPage() {
@@ -91,6 +92,19 @@ public class ResultData {
 
   public ResultData withLang(String lang) {
     this.lang = lang;
+    return this;
+  }
+
+  public String getTime() {
+    return time;
+  }
+
+  public void setTime(String time) {
+    this.time = time;
+  }
+
+  public ResultData withTime(String time) {
+    this.time = time;
     return this;
   }
 

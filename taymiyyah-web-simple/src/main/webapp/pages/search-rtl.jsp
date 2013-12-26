@@ -32,7 +32,7 @@
             </select>
           </div>
           <div class="col-md-3" dir="rtl">
-            <input id="idSrch" type="radio" name="idSrch" style="padding: 5px" value="idSrch">&nbsp;
+            <input id="radio" type="radio" name="radio" value="idSrch">&nbsp;
             <label><fmt:message key="ayahNo" bundle="${msg}"/></label>
           </div>
         </div><!--end row 1-->
@@ -51,7 +51,7 @@
                    style="width: 100%;padding: 5px;" value="" />
           </div>
           <div class="col-md-3" dir="rtl">
-            <input id="srSrch" type="radio" name="srSrch" value="srSrch">&nbsp;
+            <input id="radio" type="radio" name="radio" value="srSrch">&nbsp;
             <label><fmt:message key="serialNo" bundle="${msg}"/></label>
           </div>
         </div>
