@@ -140,7 +140,15 @@ public class QuranJDBCRepoImpl implements QuranJDBCRepo{
 
   @Override
   public Quran findByAccumId(int accumId, LocaleEnum localeEnum){
-    Quran quran = new Quran();
+    Quran quran = null;
+    quran = byAccumId(accumId, LocaleEnum.Ar);
+    if(quran != null)
+      quran.setAyahTranslationText(byAccumId(quran.getAccmId(), localeEnum).getAyahText());
+    return quran;
+  }
+
+  private Quran byAccumId(int accumId, LocaleEnum localeEnum){
+    Quran quran = null;
     Connection connection = null;
     PreparedStatement statement = null;
     ResultSet rs = null;
@@ -155,6 +163,7 @@ public class QuranJDBCRepoImpl implements QuranJDBCRepo{
       statement.setInt(1, accumId);
       rs = statement.executeQuery();
       while (rs.next()){
+        quran = new Quran();
         quran.setAccmId(rs.getInt(QuranField.accumId.value()));
         quran.setAyahId(rs.getInt(QuranField.ayahId.value()));
         quran.setSurahId(rs.getInt(QuranField.surahId.value()));
@@ -190,12 +199,12 @@ public class QuranJDBCRepoImpl implements QuranJDBCRepo{
 
   @Override
   public Quran findByAyahId(int surahId, int ayahId, LocaleEnum localeEnum){
-    Quran quran = new Quran();
+    Quran quran = null;
     Connection connection = null;
     PreparedStatement statement = null;
     ResultSet rs = null;
     try {
-      String query = queryBuilder.getAyahIdQuery(localeEnum);
+      String query = queryBuilder.getAyahIdQuery(LocaleEnum.Ar);
       if(logger.isDebugEnabled()){
         logger.debug("getAyahIdQuery: "+query);
         logger.debug(", surahId: "+surahId);
@@ -207,6 +216,7 @@ public class QuranJDBCRepoImpl implements QuranJDBCRepo{
       statement.setInt(2, ayahId);
       rs = statement.executeQuery();
       while (rs.next()){
+        quran = new Quran();
         quran.setAccmId(rs.getInt(QuranField.accumId.value()));
         quran.setAyahId(rs.getInt(QuranField.ayahId.value()));
         quran.setSurahId(rs.getInt(QuranField.surahId.value()));
@@ -219,6 +229,11 @@ public class QuranJDBCRepoImpl implements QuranJDBCRepo{
         quran.setSurahName(rs.getString(QuranField.surahName.value()));
         quran.setJuzName(rs.getString(QuranField.juzName.value()));
 
+      }
+
+      if(quran != null){
+        Quran byAccumId = this.byAccumId(quran.getAccmId(), localeEnum);
+        quran.setAyahTranslationText(byAccumId.getAyahText());
       }
 
     } catch(Exception e){

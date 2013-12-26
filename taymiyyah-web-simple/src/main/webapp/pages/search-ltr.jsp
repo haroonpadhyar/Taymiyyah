@@ -24,7 +24,7 @@
             <label style="padding: 5px;"><fmt:message key="searchTerm" bundle="${msg}"/>:</label>
           </div>
           <div class="col-md-10">
-            <input id="term" type="text" class="input-medium search-query"
+            <input id="term" type="text" maxlength="150" class="input-medium search-query"
                    style="width: 100%;padding: 5px;" value="محمد" />
           </div>
         </div><%-- end row 1--%>
@@ -59,16 +59,11 @@
       <form class="well form-search">
         <div class="row">
           <div class="col-md-3">
-            <input id="radio" type="radio" name="radio" value="idSrch">&nbsp;
+            <input id="radio" type="radio" name="radio" value="idSrch" checked>&nbsp;
             <label><fmt:message key="ayahNo" bundle="${msg}"/></label>
           </div>
           <div class="col-md-7">
-            <select style="width: 100%;padding: 7px;">
-              <option value="volvo">Volvo</option>
-              <option value="saab">Saab</option>
-              <option value="mercedes">Mercedes</option>
-              <option value="audi">Audi</option>
-            </select>
+            <jsp:include page="surahList.jsp"/>
           </div>
           <div class="col-md-2">
 
@@ -81,7 +76,7 @@
             <label><fmt:message key="serialNo" bundle="${msg}"/></label>
           </div>
           <div class="col-md-2">
-            <input id="ayaNo" type="text" class="input-medium search-query"
+            <input id="ayaNo" type="text" maxlength="4" class="input-medium search-query"
                    style="width: 100%;padding: 5px;" value="" />
           </div>
           <div class="col-md-5">

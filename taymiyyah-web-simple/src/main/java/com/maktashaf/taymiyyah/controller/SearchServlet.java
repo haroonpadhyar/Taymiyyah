@@ -107,11 +107,16 @@ public class SearchServlet extends HttpServlet{
   }
 
   private void handleAjax(HttpServletRequest req, HttpServletResponse resp, long startTime) throws ServletException, IOException {
+    String src = req.getParameter("src");
+    if(src.equals("srch")){
+      doIdSearch(req, resp);
+      return;
+    }
+
     String searchedTerm = req.getParameter("term");
     String termHidden = req.getParameter("termHidden");
     String term = termHidden;
     String locale = req.getParameter("locale");
-    String src = req.getParameter("src");
     String pageNoStr = req.getParameter("currentPage");
     String totalPagesStr = req.getParameter("totalPages");
     boolean original = req.getParameter("original").equals("1");
@@ -168,4 +173,45 @@ public class SearchServlet extends HttpServlet{
     resp.setContentType("text/html");
     resp.getWriter().write(json);
   }
+
+  private void doIdSearch(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    String radio = req.getParameter("radio");
+    String surahId = req.getParameter("surahId");
+    String ayahId = req.getParameter("ayahId");
+    String locale = req.getParameter("locale");
+    LocaleEnum localeEnum = LocaleEnum.languageBiMap.look(locale);
+    if(localeEnum == null)
+      localeEnum = LocaleEnum.Ar;
+
+    int surahNo = 0;
+    int ayahNo = 0;
+    try{
+      surahNo = Integer.valueOf(surahId);
+      ayahNo = Integer.valueOf(ayahId);
+    } catch(Exception e){
+      logger.error(e.getMessage());
+      surahNo = 0;
+      ayahNo = 0;
+    }
+
+    Quran quran = null;
+    if(radio.equals("idSrch"))
+      quran = quranSearchService.findByAyahId(surahNo, ayahNo, localeEnum);
+    else if(radio.equals("srSrch"))
+      quran = quranSearchService.findByAccumId(ayahNo, localeEnum);
+
+    List<Quran> quranList = new ArrayList<Quran>();
+    if(quran != null)
+      quranList.add(quran);
+    ResultData resultData = new ResultData()
+        .withLang(localeEnum.value().getLanguage())
+        .withQuranList(quranList);
+
+    Gson gson = new Gson();
+    String json = gson.toJson(resultData);
+
+    resp.setContentType("text/html");
+    resp.getWriter().write(json);
+  }
+
 }
