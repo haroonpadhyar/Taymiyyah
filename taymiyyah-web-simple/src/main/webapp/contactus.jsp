@@ -9,49 +9,42 @@
 
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" type="text/css" href="css/table.css"/>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.css"/>
     <title>مكتشف</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <c:if test="${sessionScope.locale eq null or sessionScope.locale.language.equals('en')}">
+      <link id="cssLink" href="css/ltr/bootstrap.css" rel="stylesheet" media="screen">
+    </c:if>
+    <c:if test="${sessionScope.locale ne null and !sessionScope.locale.language.equals('en')}">
+      <link id="cssLink" href="css/rtl/bootstrap.css" rel="stylesheet" media="screen">
+    </c:if>
+    <%--<link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>--%>
+    <link rel="stylesheet" type="text/css" href="css/table.css"/>
+    <script src="javascript/jquery-1.7.2.js" type="text/javascript"></script>
+    <script src="javascript/ajax.js" type="text/javascript"></script>
+
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
     <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
     <meta http-equiv="description" content="This is my page">
+
+    <!--CUSTOM CSS-->
+    <style>
+      body {
+        padding-top: 100px;
+      }
+    </style>
   </head>
 
   <body>
 
-  <%--ltr--%>
-  <c:if test="${sessionScope.locale eq null or sessionScope.locale.language.equals('en')}">
-    <jsp:include page="pages/header-ltr.jsp" />
-  </c:if>
-  <%--ent ltr--%>
+    <jsp:include page="pages/header.jsp" />
 
-  <%--rtl--%>
-  <c:if test="${sessionScope.locale ne null and !sessionScope.locale.language.equals('en')}">
-    <jsp:include page="pages/header-rtl.jsp" />
-  </c:if>
-  <%--ent rtl--%>
-
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <c:if test="${sessionScope.locale eq null or sessionScope.locale.language.equals('en')}">
-  <div class="container" dir="ltr">
-  </c:if>
-
-  <c:if test="${sessionScope.locale ne null and !sessionScope.locale.language.equals('en')}">
-    <div class="container" dir="rtl">
-  </c:if>
-
-    <p class="h1"><fmt:message key="contactUs" bundle="${msg}"/></p>
-    <p class="lead"><fmt:message key="contactParagraph" bundle="${msg}"/></p>
-  </div>
+    <div class="container">
+      <p class="h1"><fmt:message key="contactUs" bundle="${msg}"/></p>
+      <p class="lead"><fmt:message key="contactParagraph" bundle="${msg}"/></p>
+    </div>
 
   </body>
 </html>

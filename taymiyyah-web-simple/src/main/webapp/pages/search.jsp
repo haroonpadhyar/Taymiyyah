@@ -8,9 +8,6 @@
 
 <div class="container">
 
-<br>
-<br>
-<br>
 <a href="searchthetext?locale=ar">العربیة</a>&nbsp;
 <a href="searchthetext?locale=ur">اردو</a>&nbsp;
 <a href="searchthetext?locale=en">English</a>&nbsp;
