@@ -20,7 +20,8 @@
     </c:if>
     <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
     <link rel="stylesheet" type="text/css" href="css/table.css"/>
-    <script src="javascript/jquery-1.7.2.js" type="text/javascript"></script>
+    <script src="javascript/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="javascript/bootstrap.min.js"></script>
     <script src="javascript/ajax.js" type="text/javascript"></script>
 
     <meta http-equiv="pragma" content="no-cache">
