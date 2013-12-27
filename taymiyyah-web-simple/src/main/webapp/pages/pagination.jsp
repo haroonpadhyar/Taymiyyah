@@ -7,18 +7,20 @@
 <fmt:setBundle basename="i18n.messages" var="msg"/>
 
 <div class="container">
-
-  <div class="row well" style="margin-right: 0px;margin-left: 0px;">
-    <div class="col-md-2" title="Previous">
-      <a id="prv" href="">&laquo;&nbsp;<fmt:message key="previous" bundle="${msg}"/></a></div>
-    <div id="currentPage" class="col-md-1"></div>
-    <div class="col-md-1"><fmt:message key="of" bundle="${msg}"/></div>
-    <div id="totalPages" class="col-md-1"></div>
-    <div class="col-md-2" style="text-align: center" title="Next">
-      <a id="nxt" href=""><fmt:message key="next" bundle="${msg}"/>&nbsp;&raquo;</a></div>
-    <div class="col-md-2"></div>
-    <div class="col-md-2" dir="rtl"><fmt:message key="totalHits" bundle="${msg}"/></div>
-    <div id="totalHits" class="col-md-1" dir="rtl" style="font-weight: bold;"></div>
+  <!--PAGINATION-->
+  <div>
+    <ul class="pagination">
+      <li><a href="" id="prv" class="previous">&laquo;&nbsp;<fmt:message key="previous" bundle="${msg}"/></a></li>
+      <li class="disabled"><span><div id="currentPage"></div></span></li>
+      <li class="disabled"><span><fmt:message key="of" bundle="${msg}"/></span></li>
+      <li class="disabled"><span><div id="totalPages"></div></span></li>
+      <li><a href="" id="nxt" class="next"><fmt:message key="next" bundle="${msg}"/>&nbsp;&raquo;</a></li>
+    </ul>
+    &nbsp;
+    <ul class="pagination">
+      <li class="disabled"><span><fmt:message key="totalHits" bundle="${msg}"/></span></li>
+      <li class="disabled"><span><div id="totalHits" style="font-weight: bold;"></div></span></li>
+    </ul>
   </div>
 
 </div>
