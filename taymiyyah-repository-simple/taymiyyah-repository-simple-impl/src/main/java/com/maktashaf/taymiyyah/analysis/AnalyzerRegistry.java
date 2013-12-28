@@ -17,8 +17,9 @@ public class AnalyzerRegistry {
   private static Table<LocaleEnum, Translator, Analyzer> analyzerTable = HashBasedTable.create();
 
   static {
-    analyzerTable.put(LocaleEnum.Original, Translator.None, new ArabicAnalyzer(Version.LUCENE_31));
-    analyzerTable.put(LocaleEnum.Ar, Translator.None, new ArabicAnalyzer(Version.LUCENE_31));
+    ArabicAnalyzer arabicAnalyzer = new ArabicAnalyzer(Version.LUCENE_31);
+    analyzerTable.put(LocaleEnum.Original, Translator.None, arabicAnalyzer);
+    analyzerTable.put(LocaleEnum.Ar, Translator.None, arabicAnalyzer);
     analyzerTable.put(LocaleEnum.Ur, Translator.Maududi, new UrduAnalyzer());
     analyzerTable.put(LocaleEnum.En, Translator.YousufAli, new PhoneticEnglishAnalyzer(Version.LUCENE_31));
   }

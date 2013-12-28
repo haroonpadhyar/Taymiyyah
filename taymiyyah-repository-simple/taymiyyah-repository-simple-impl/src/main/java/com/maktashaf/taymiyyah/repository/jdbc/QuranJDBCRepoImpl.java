@@ -141,15 +141,35 @@ public class QuranJDBCRepoImpl implements QuranJDBCRepo{
   @Override
   public Quran findByAccumId(int accumId, LocaleEnum localeEnum){
     Quran quran = null;
-    quran = byAccumId(accumId, LocaleEnum.Ar);
-    if(quran != null)
-      quran.setAyahTranslationText(byAccumId(quran.getAccmId(), localeEnum).getAyahText());
+    Connection connection = null;
+    PreparedStatement statement = null;
+    ResultSet rs = null;
+    try {
+      connection = ConnectionFactory.getInstance().getConnection();
+      quran = byAccumId(accumId, LocaleEnum.Ar, connection);
+      if(quran != null)
+        quran.setAyahTranslationText(byAccumId(quran.getAccmId(), localeEnum, connection).getAyahText());
+    } catch(Exception e){
+      e.printStackTrace();
+      logger.error(e.getMessage());
+      throw new RuntimeException(e);
+    }finally {
+      try {
+        if(rs != null)
+          rs.close();
+        if(statement != null)
+          statement.close();
+        if(connection != null)
+          connection.close();
+      } catch(Exception ee){
+        ee.printStackTrace();
+      }
+    }
     return quran;
   }
 
-  private Quran byAccumId(int accumId, LocaleEnum localeEnum){
+  private Quran byAccumId(int accumId, LocaleEnum localeEnum, Connection connection){
     Quran quran = null;
-    Connection connection = null;
     PreparedStatement statement = null;
     ResultSet rs = null;
     try {
@@ -158,7 +178,6 @@ public class QuranJDBCRepoImpl implements QuranJDBCRepo{
         logger.debug("getAccumIdQuery: "+query);
         logger.debug(", accumId: "+accumId);
       }
-      connection = ConnectionFactory.getInstance().getConnection();
       statement = connection.prepareStatement(query);
       statement.setInt(1, accumId);
       rs = statement.executeQuery();
@@ -187,8 +206,6 @@ public class QuranJDBCRepoImpl implements QuranJDBCRepo{
           rs.close();
         if(statement != null)
           statement.close();
-        if(connection != null)
-          connection.close();
       } catch(Exception ee){
         ee.printStackTrace();
       }
@@ -232,7 +249,7 @@ public class QuranJDBCRepoImpl implements QuranJDBCRepo{
       }
 
       if(quran != null){
-        Quran byAccumId = this.byAccumId(quran.getAccmId(), localeEnum);
+        Quran byAccumId = this.byAccumId(quran.getAccmId(), localeEnum, connection);
         quran.setAyahTranslationText(byAccumId.getAyahText());
       }
 

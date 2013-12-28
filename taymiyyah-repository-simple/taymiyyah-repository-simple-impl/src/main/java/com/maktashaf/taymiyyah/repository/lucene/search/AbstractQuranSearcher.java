@@ -39,12 +39,15 @@ public abstract class AbstractQuranSearcher  implements QuranSearcher{
   @Override
   public SearchResult search(SearchParam searchParam){
     SearchResult searchResult = SearchResult.builder().build();
+    Directory dir = null;
+    IndexReader reader = null;
+    IndexSearcher searcher = null;
     try {
       List<Quran> quranList = new ArrayList<Quran>();
       int totalHits = 0;
       int totalPages = 0;
 
-      Directory dir = FSDirectory.open(
+      dir = FSDirectory.open(
           new File(resolveIndexPath(searchParam))
       );
 
@@ -53,8 +56,8 @@ public abstract class AbstractQuranSearcher  implements QuranSearcher{
         throw new RuntimeException("No Analyzer found for: "
             +searchParam.getLocaleEnum().value() + ": "+searchParam.getTranslator());
 
-      IndexReader reader = IndexReader.open(dir);
-      IndexSearcher searcher = new IndexSearcher(reader);
+      reader = IndexReader.open(dir);
+      searcher = new IndexSearcher(reader);
 
       Version version = Version.LUCENE_31;
       if(analyzer instanceof UrduAnalyzer)
@@ -99,6 +102,19 @@ public abstract class AbstractQuranSearcher  implements QuranSearcher{
       e.printStackTrace();
       logger.error(e.getMessage());
       throw new RuntimeException(e);
+    } finally {
+      try {
+        if(dir != null)
+          dir.close();
+        if(reader != null)
+          reader.close();
+        if(searcher != null)
+          searcher.close();
+      } catch(Exception e){
+        e.printStackTrace();
+        logger.error(e.getMessage());
+        throw new RuntimeException(e);
+      }
     }
     return searchResult;
   }
