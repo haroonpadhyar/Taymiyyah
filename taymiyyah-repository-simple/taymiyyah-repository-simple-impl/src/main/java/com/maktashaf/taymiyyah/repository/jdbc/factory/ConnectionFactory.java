@@ -44,6 +44,7 @@ public class ConnectionFactory {
     } catch(Exception e){
       e.printStackTrace();
       logger.error(e.getMessage());
+      throw new RuntimeException(e);
     }
     return connection;
   }
@@ -58,6 +59,7 @@ public class ConnectionFactory {
     }catch(Exception e){
       e.printStackTrace();
       logger.error(e.getMessage());
+      throw new RuntimeException(e);
     }
 
     return properties;

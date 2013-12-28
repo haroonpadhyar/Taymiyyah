@@ -27,7 +27,7 @@
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">
-    <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+    <meta http-equiv="keywords" content="earch in the Quran القران الكريم, Quran, Quraan, Qur'an, Coran, Islam, Islaam, Islamic, Search Engine, Free, Translation, Transliteration, Allah, Muhammad, , Yusuf Ali,Maududi, Quran Reader,Sura, Sora, Islamic Finder, IslamicFinder, Urdu Quran search,Arabic quran search,Search The Quran.  The most advanced advanced Quran Search Engine built using cutting-edge search technology.">
     <meta http-equiv="description" content="This is my page">
 
     <!--CUSTOM CSS-->

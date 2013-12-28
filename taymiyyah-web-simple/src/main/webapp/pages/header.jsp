@@ -14,7 +14,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand h1" href="index.jsp" style="color: #ffffff" >مكتشف</a>
+      <a class="navbar-brand h1" href="index.jsp" style="color: #ffffff;font-weight: bolder " >مكتشف</a>
     </div>
     <div class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
