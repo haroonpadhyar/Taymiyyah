@@ -5,19 +5,55 @@
 
 <%--<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">--%>
 <!DOCTYPE html>
-<fmt:setLocale value="${sessionScope.locale}" />
-<fmt:setBundle basename="i18n.messages" var="msg"/>
+<%--<fmt:setLocale value="${sessionScope.locale}" />--%>
+<%
+  String localeLang = (String)session.getAttribute("localeLang");
+  if(localeLang != null && localeLang.equals("en")) {
+%>
+<fmt:setLocale value="en" />
+<%
+}else if(localeLang != null && localeLang.equals("ar")) {
+%>
+<fmt:setLocale value="ar" />
+<%
+}else if(localeLang != null && localeLang.equals("ur")) {
+%>
+<fmt:setLocale value="ur" />
+<%
+}else {
+%>
+<fmt:setLocale value="en" />
+<%
+  }
+%>
+<%--<fmt:setBundle basename="i18n.messages" var="msg"/>--%>
+<fmt:bundle basename="i18n.messages">
 <html>
   <head>
     <title>مكتشف</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <%--
     <c:if test="${sessionScope.locale eq null or sessionScope.locale.language.equals('en')}">
       <link id="cssLink" href="css/ltr/bootstrap.css" rel="stylesheet" media="screen">
     </c:if>
     <c:if test="${sessionScope.locale ne null and !sessionScope.locale.language.equals('en')}">
       <link id="cssLink" href="css/rtl/bootstrap.css" rel="stylesheet" media="screen">
     </c:if>
+    --%>
+    <%
+//      String localeLang = (String)session.getAttribute("localeLang");
+      if(localeLang != null && !localeLang.equals("en")) {
+    %>
+    <link id="cssLink" href="css/rtl/bootstrap.css" rel="stylesheet" media="screen">
+    <%
+      }else {
+    %>
+    <link id="cssLink" href="css/ltr/bootstrap.css" rel="stylesheet" media="screen">
+    <%
+      }
+    %>
+
     <link rel="stylesheet" type="text/css" href="css/bootstrap-theme.css"/>
     <link rel="stylesheet" type="text/css" href="css/table.css"/>
     <script src="javascript/jquery-1.7.2.min.js" type="text/javascript"></script>
@@ -45,10 +81,14 @@
 
     <div id="timeDiv" class="container" style="display: none">
       <small style="color: darkgray">
-        <fmt:message key="almost" bundle="${msg}"/>
+        <%--<fmt:message key="almost" bundle="${msg}"/>--%>
+        <fmt:message key="almost"/>
         <span id="totalHitsSmall"></span>
-        <fmt:message key="results" bundle="${msg}"/>
-        (<span id="time"></span>)&nbsp;<fmt:message key="seconds" bundle="${msg}"/>
+        <%--<fmt:message key="results" bundle="${msg}"/>--%>
+        <fmt:message key="results"/>
+        (<span id="time"></span>)&nbsp;
+          <%--<fmt:message key="seconds" bundle="${msg}"/>--%>
+          <fmt:message key="seconds"/>
       </small>
     </div>
     <div id="qtableDiv" class="container" style="display: none"></div>
@@ -56,6 +96,7 @@
       <jsp:include page="pages/pagination.jsp" />
     </div>
 
+<%--
   <div class="container">
       <c:catch var="ex">
         <c:if test="${ex ne null}">
@@ -64,8 +105,9 @@
         </c:if>
       </c:catch>
     </div>
-  <%--End Container--%>
+--%>
 
 
   </body>
 </html>
+</fmt:bundle>
